@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LANRE GLOBAL FIT — Classic Leather Shoes</title>
+  <meta name="description" content="LANRE GLOBAL FIT — Classic handcrafted leather shoes from Nigeria.">
+  <link rel="icon" href="logo.png" />
+   <style>
+    :root{
+      --bg:#efe9df;
+      --text:#362b26;
+      --accent:#c49a6c;
+      --muted:#7a6a63;
+      --card:#ffffff;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,var(--bg),#efe7dd);color:var(--text);min-height:100vh}
+    a{color:inherit}
+    .container{max-width:1150px;margin:28px auto;padding:22px}
+    header{display:flex;justify-content:space-between;align-items:center;gap:16px}
+    .brand{display:flex;gap:16px;align-items:center}
+    .brand img{width:88px;height:88px;object-fit:contain;border-radius:10px;background:#000}
+    .brand .title{font-weight:700;font-size:18px}
+    nav{display:flex;gap:12px;align-items:center}
+    .btn{padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:700}
+    .cta{background:var(--accent);color:white}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px}
+    .product{background:linear-gradient(180deg,rgba(255,255,255,0.9),#fff);border-radius:12px;overflow:hidden;box-shadow:0 6px 18px rgba(40,30,25,0.05)}
+    .product img{width:100%;height:220px;object-fit:cover}
+    .body{padding:12px}
+    .price{font-weight:800;margin-top:8px}
+    .muted{color:var(--muted)}
+    footer{margin-top:36px;padding:18px;border-radius:10px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+    /* cart panel */
+    .cart-btn{position:relative}
+    .badge{position:absolute;top:-8px;right:-12px;background:#7b3b1f;color:#fff;padding:5px 8px;border-radius:999px;font-size:13px}
+    .cart-panel{position:fixed;right:18px;bottom:18px;width:360px;max-width:90%;background:#fff;padding:14px;border-radius:12px;box-shadow:0 18px 40px rgba(0,0,0,0.2);display:none}
+    .cart-panel.open{display:block}
+    .cart-item{display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid rgba(0,0,0,0.06)}
+    .cart-item img{width:60px;height:60px;object-fit:cover;border-radius:8px}
+    @media (max-width:980px){ .grid{grid-template-columns:repeat(2,1fr)} header{flex-direction:column;align-items:flex-start} }
+    @media (max-width:640px){ .grid{grid-template-columns:1fr} }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <img src="logo.png" alt="LANRE GLOBAL FIT logo" id="siteLogo" onerror="this.style.display='none'">
+        <div>
+          <div class="title">LANRE GLOBAL FIT</div>
+          <div class="muted">Global Style. Perfect Fit.</div>
+        </div>
+      </div>
+
+      <nav>
+        <a href="#products" class="muted">Products</a>
+        <a href="#about" class="muted">About</a>
+        <a href="#contact" class="muted">Contact</a>
+        <button id="openCart" class="btn cart-btn">Cart <span id="cartCount" class="badge" style="display:none">0</span></button>
+      </nav>
+    </header>
+
+    <main>
+      <section style="display:flex;gap:24px;margin-top:18px;align-items:center">
+        <div style="flex:1">
+          <h1 style="margin:0;font-size:36px">Timeless leather. Superior comfort.</h1>
+          <p class="muted">Handcrafted full-grain leather. Traditional techniques, modern comfort.</p>
+          <a href="#products" class="btn cta">Shop Collection</a>
+        </div>
+        <aside style="width:320px;background:#fff;padding:14px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.06)">
+          <strong>Signature Collection</strong>
+          <p class="muted" style="margin:8px 0">Limited handcrafted runs.</p>
+          <div style="margin-top:8px"><a class="btn" href="#contact">Order / Visit</a></div>
+        </aside>
+      </section>
+
+      <section id="products">
+        <h2 style="margin-top:28px;font-family:serif">Featured Shoes</h2>
+        <div class="grid" id="productGrid"></div>
+      </section>
+
+      <section id="about" style="margin-top:32px">
+        <h3>About</h3>
+        <p class="muted">LANRE GLOBAL FIT blends craft with care. Each pair is stitched and finished in Nigeria.</p>
+      </section>
+
+      <section id="contact" style="margin-top:22px">
+        <h3>Contact</h3>
+        <p class="muted">Call or WhatsApp to place orders or book a studio visit.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
+          <div style="background:#fff;padding:12px;border-radius:10px">
+            <strong>Phone</strong><br>
+            <div class="muted">0813 615 1209</div>
+            <div class="muted">0706 559 8324</div>
+            <div style="margin-top:8px"><a id="waBoth" class="btn cta" target="_blank">WhatsApp Order</a></div>
+          </div>
+          <div style="flex:1;min-width:220px;background:#fff;padding:12px;border-radius:10px">
+            <strong>Location</strong>
+            <div class="muted">Lagos, Nigeria — studio visits by appointment</div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>© <span id="year"></span> LANRE GLOBAL FIT</div>
+      <div class="muted">Handcrafted leather footwear — Global Style. Perfect Fit.</div>
+    </footer>
+  </div>
+
+  <!-- Cart panel -->
+  <div id="cartPanel" class="cart-panel" aria-hidden="true">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <strong>Your Cart</strong>
+      <button id="closeCart" class="btn">Close</button>
+    </div>
+    <div id="cartItems" style="margin-top:10px"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+      <div class="muted">Subtotal</div>
+      <div id="cartTotal" style="font-weight:800">₦0.00</div>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:8px">
+      <button id="checkout" class="btn cta" style="flex:1">Checkout</button>
+      <button id="clearCart" class="btn">Clear</button>
+import { ShoppingCart } from 'lucide-react';
+
+function CartIcon() {
+  return <ShoppingCart size={24} color="black" />;
+}
+
+
+
+  </div>
+
+  <script>
+    // Settings
+    const PHONE_A = "08136151209";
+    const PHONE_B = "07065598324";
+    const WHATSAPP_NUMBER = "2347065598324"; // used for WhatsApp link (country code + number)
+    const STORAGE_KEY = 'lgf_products_v2'; // same key used by admin page
+
+    // default demo products (only used when localStorage empty)
+    const defaultProducts = [
+      {id:1,name:"Oxford Classic — Brown",price:35500,img:"https://images.unsplash.com/photo-1519741496550-3f2f8f053b02?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder",desc:"Hand-stitched Oxford with leather sole."},
+      {id:2,name:"Derby Heritage — Tan",price:28900,img:"https://images.unsplash.com/photo-1526178615157-5f1d9c09e8ae?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder",desc:"Classic Derby, polished finish."}
+    ];
+
+    // load/save products
+    function loadProducts(){
+      try{
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if(!raw){ localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultProducts)); return defaultProducts.slice(); }
+        return JSON.parse(raw);
+      }catch(e){ return defaultProducts.slice(); }
+    }
+    function saveProducts(arr){ localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); }
+
+    let products = loadProducts();
+
+    // format Naira with commas and two decimals
+    function formatNaira(n){
+      const parts = Number(n).toFixed(2).split('.');
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      return '₦' + parts.join('.');
+    }
+
+    // render product grid
+    const grid = document.getElementById('productGrid');
+    function renderProducts(){
+      grid.innerHTML = '';
+      products.forEach(p=>{
+        const el = document.createElement('div'); el.className='product';
+        el.innerHTML = `
+          <img src="${p.img}" alt="${escapeHtml(p.name)}">
+          <div class="body">
+            <h4 style="margin:0">${escapeHtml(p.name)}</h4>
+            <div class="muted" style="margin-top:6px">${escapeHtml(p.desc||'')}</div>
+            <div class="price">${formatNaira(p.price)}</div>
+            <div style="display:flex;gap:8px;margin-top:10px">
+              <button class="btn cta add" data-id="${p.id}">Add to Cart</button>
+              <button class="btn details" data-id="${p.id}">Details</button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(el);
+      });
+    }
+
+    // escape small strings for safety
+    function escapeHtml(s){ return (s||'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+    // CART
+    let cart = JSON.parse(localStorage.getItem('lgf_cart') || '{}');
+    const cartCount = document.getElementById('cartCount');
+    const cartPanel = document.getElementById('cartPanel');
+    const cartItemsEl = document.getElementById('cartItems');
+    const cartTotalEl = document.getElementById('cartTotal');
+
+    function saveCart(){ localStorage.setItem('lgf_cart', JSON.stringify(cart)); }
+    function addToCart(id){ cart[id] = (cart[id]||0) + 1; saveCart(); updateCartUI(); }
+    function changeQty(id, qty){ if(qty<=0) delete cart[id]; else cart[id]=qty; saveCart(); updateCartUI(); }
+
+    function updateCartUI(){
+      const items = Object.keys(cart).map(id=>{
+        const p = products.find(x=>x.id==id);
+        return p ? {id:p.id,name:p.name,qty:cart[id],price:p.price,img:p.img} : null;
+      }).filter(Boolean);
+
+      cartItemsEl.innerHTML = items.map(it=>`
+        <div class="cart-item">
+          <img src="${it.img}" alt="${escapeHtml(it.name)}">
+          <div style="flex:1">
+            <div style="font-weight:700">${escapeHtml(it.name)}</div>
+            <div class="muted">Qty: <input type="number" min="1" value="${it.qty}" data-id="${it.id}" style="width:64px"></div>
+          </div>
+          <div style="font-weight:800">${formatNaira(it.price*it.qty)}</div>
+        </div>
+      `).join('') || '<div class="muted">Your cart is empty</div>';
+
+      const total = items.reduce((s,it)=>s+it.price*it.qty,0);
+      cartTotalEl.textContent = formatNaira(total);
+      const count = items.reduce((s,it)=>s+it.qty,0);
+      if(count>0){ cartCount.style.display='inline-block'; cartCount.textContent = count; } else { cartCount.style.display='none' }
+
+      // attach change handlers
+      cartItemsEl.querySelectorAll('input[type=number]').forEach(inp=>{
+        inp.addEventListener('change', (e)=>{ const id = e.target.dataset.id; changeQty(id, parseInt(e.target.value||0)); });
+      });
+    }
+
+    // events
+    document.addEventListener('click', (e)=>{
+      if(e.target.matches('.add')) addToCart(e.target.dataset.id);
+      if(e.target.matches('.details')){
+        const id = e.target.dataset.id; const p = products.find(x=>x.id==id);
+        alert(p.name + "\n" + (p.desc||'') + "\nPrice: " + formatNaira(p.price));
+      }
+    });
+
+    // cart controls
+    document.getElementById('openCart').addEventListener('click', ()=>{ cartPanel.classList.toggle('open'); cartPanel.setAttribute('aria-hidden', cartPanel.classList.contains('open') ? 'false' : 'true'); });
+    document.getElementById('closeCart').addEventListener('click', ()=>{ cartPanel.classList.remove('open'); });
+    document.getElementById('clearCart').addEventListener('click', ()=>{ cart={}; saveCart(); updateCartUI(); });
+    document.getElementById('checkout').addEventListener('click', ()=> {
+      if(Object.keys(cart).length===0){ alert('Your cart is empty'); return; }
+      let summary = 'Order summary:\n\n';
+      const items = Object.keys(cart).map(id=>{ const p=products.find(x=>x.id==id); return p?{p,qty:cart[id]}:null }).filter(Boolean);
+      let total = 0;
+      items.forEach(it=>{ summary += `${it.p.name} x${it.qty} — ${formatNaira(it.p.price*it.qty)}\n`; total += it.p.price*it.qty; });
+      summary += `\nSubtotal: ${formatNaira(total)}\n\nTo complete this order please WhatsApp us at +${WHATSAPP_NUMBER}.`;
+      alert(summary);
+    });
+
+    // WhatsApp button with both numbers (pre-filled message)
+    const waBoth = document.getElementById('waBoth');
+    waBoth.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hello Lanre Global Fit, I would like to place an order.')}`;
+
+    // init
+    renderProducts();
+    updateCartUI();
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
