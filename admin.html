@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LANRE GLOBAL FIT — Admin</title>
+  <link rel="icon" href="logo.png" />
+
+  <style>
+    :root{
+      --bg:#efe9df;
+      --text:#362b26;
+      --accent:#c49a6c;
+      --muted:#7a6a63;
+      --card:#fff;
+      font-family: Inter, Arial, sans-serif;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:linear-gradient(180deg,var(--bg),#efe7dd);
+      color:var(--text);
+    }
+
+    .wrap{max-width:1100px;margin:24px auto;padding:18px}
+
+    header{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+
+    .logo{width:72px;height:72px;border-radius:10px}
+
+    .admin-grid{
+      display:grid;
+      grid-template-columns:1fr 360px;
+      gap:18px;
+      margin-top:18px;
+    }
+
+    .card{
+      background:var(--card);
+      padding:14px;
+      border-radius:10px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.06);
+    }
+
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      margin-bottom:10px;
+    }
+
+    .admin-list{
+      max-height:420px;
+      overflow:auto;
+    }
+
+    .btn{
+      padding:10px 12px;
+      border-radius:8px;
+      border:none;
+      cursor:pointer;
+      font-weight:700;
+    }
+
+    .btn-primary{
+      background:var(--accent);
+      color:#fff;
+    }
+
+    .btn-outline{
+      background:#fff;
+      border:1px solid rgba(0,0,0,0.15);
+    }
+
+    .muted{color:var(--muted)}
+
+    @media(max-width:980px){
+      .admin-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+
+<body>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header>
+    <img src="logo.png" class="logo" onerror="this.style.display='none'">
+    <div>
+      <h2 style="margin:0">LANRE GLOBAL FIT — Admin</h2>
+      <div class="muted">Manage products (Add / Edit / Delete)</div>
+    </div>
+  </header>
+
+  <!-- LOGIN -->
+  <div id="loginCard" class="card" style="margin-top:18px">
+    <h3>Admin Login</h3>
+    <input id="adminPw" type="password" placeholder="Password"
+      style="padding:10px;width:100%;border-radius:8px;border:1px solid #ddd">
+
+    <div style="margin-top:10px;display:flex;gap:8px">
+      <button id="btnEnter" class="btn btn-primary">Enter</button>
+      <a href="index.html" class="btn btn-outline">Back to Store</a>
+    </div>
+
+    <small class="muted" style="display:block;margin-top:8px">
+      Default password: <strong>lanreadmin</strong>
+    </small>
+  </div>
+
+  <!-- ADMIN PANEL -->
+  <div id="adminPanel" style="display:none;margin-top:18px">
+
+    <div class="admin-grid">
+
+      <!-- ADD PRODUCT -->
+      <div class="card">
+        <h3>Add New Product</h3>
+
+        <div class="field">
+          <label>Product Name</label>
+          <input id="itemName" type="text" placeholder="Oxford Classic — Brown">
+        </div>
+
+        <div class="field">
+          <label>Price (₦)</label>
+          <input id="itemPrice" type="number" placeholder="35500">
+        </div>
+
+        <div class="field">
+          <label>Image</label>
+          <input id="itemImage" type="file" accept="image/*">
+        </div>
+
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button id="addBtn" class="btn btn-primary">Add Item</button>
+          <button id="exportBtn" class="btn btn-outline">Export JSON</button>
+          <button id="importBtn" class="btn btn-outline">Import JSON</button>
+          <input id="importFile" type="file" accept="application/json" hidden>
+        </div>
+
+        <p class="muted" style="margin-top:10px;font-size:14px">
+          Images are stored in localStorage (demo purpose).
+        </p>
+      </div>
+
+      <!-- PRODUCT LIST -->
+      <aside class="card">
+        <h3>Existing Products</h3>
+        <div id="adminList" class="admin-list"></div>
+      </aside>
+
+    </div>
+
+    <div style="margin-top:12px;display:flex;gap:8px">
+      <button id="logoutBtn" class="btn btn-outline">Logout</button>
+      <a href="index.html" class="btn">View Store</a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const STORAGE_KEY = 'lgf_products_v2';
+  const ADMIN_PASSWORD = 'lanreadmin';
+
+  const defaultProducts = [
+    {
+      id:1,
+      name:'Oxford Classic — Brown',
+      price:35500,
+      img:'https://images.unsplash.com/photo-1519741496550-3f2f8f053b02'
+    },
+    {
+      id:2,
+      name:'Derby Heritage — Tan',
+      price:28900,
+      img:'https://images.unsplash.com/photo-1526178615157-5f1d9c09e8ae'
+    }
+  ];
+
+  function loadProducts(){
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultProducts));
+      return [...defaultProducts];
+    }
+    return JSON.parse(raw);
+  }
+
+  function saveProducts(){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+  }
+
+  let products = loadProducts();
+
+  const loginCard = document.getElementById('loginCard');
+  const adminPanel = document.getElementById('adminPanel');
+  const adminList = document.getElementById('adminList');
+
+  document.getElementById('btnEnter').onclick = () => {
+    if(document.getElementById('adminPw').value === ADMIN_PASSWORD){
+      loginCard.style.display='none';
+      adminPanel.style.display='block';
+      renderAdminList();
+    } else alert('Wrong password');
+  };
+
+  document.getElementById('logoutBtn').onclick = () => {
+    adminPanel.style.display='none';
+    loginCard.style.display='block';
+    document.getElementById('adminPw').value='';
+  };
+
+  function fileToDataURL(file){
+    return new Promise(res=>{
+      const r = new FileReader();
+      r.onload = ()=>res(r.result);
+      r.readAsDataURL(file);
+    });
+  }
+
+  document.getElementById('addBtn').onclick = async () => {
+    const name = itemName.value.trim();
+    const price = Number(itemPrice.value);
+    const file = itemImage.files[0];
+
+    if(!name || !price || !file){
+      alert('Fill all fields');
+      return;
+    }
+
+    const img = await fileToDataURL(file);
+
+    products.unshift({
+      id:Date.now(),
+      name,
+      price,
+      img
+    });
+
+    saveProducts();
+    renderAdminList();
+
+    itemName.value='';
+    itemPrice.value='';
+    itemImage.value='';
+  };
+
+  function renderAdminList(){
+    adminList.innerHTML = products.map(p=>`
+      <div style="display:flex;gap:8px;padding:8px;border-bottom:1px solid #eee">
+        <img src="${p.img}" style="width:60px;height:60px;border-radius:8px;object-fit:cover">
+        <div style="flex:1">
+          <strong>${p.name}</strong><br>
+          <span class="muted">₦${p.price.toLocaleString()}</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <button class="edit btn btn-outline" data-id="${p.id}">Edit</button>
+          <button class="delete btn btn-outline" data-id="${p.id}">Delete</button>
+        </div>
+      </div>
+    `).join('');
+
+    adminList.querySelectorAll('.delete').forEach(btn=>{
+      btn.onclick = ()=>{
+        if(confirm('Delete product?')){
+          products = products.filter(p=>p.id != btn.dataset.id);
+          saveProducts();
+          renderAdminList();
+        }
+      };
+    });
+
+    adminList.querySelectorAll('.edit').forEach(btn=>{
+      btn.onclick = ()=>{
+        const p = products.find(x=>x.id == btn.dataset.id);
+        const n = prompt('New name', p.name);
+        const pr = prompt('New price', p.price);
+        if(n && pr){
+          p.name = n;
+          p.price = Number(pr);
+          saveProducts();
+          renderAdminList();
+        }
+      };
+    });
+  }
+
+  exportBtn.onclick = ()=>{
+    const blob = new Blob([JSON.stringify(products,null,2)],{type:'application/json'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'lgf_products.json';
+    a.click();
+  };
+
+  importBtn.onclick = ()=>importFile.click();
+  importFile.onchange = e=>{
+    const r = new FileReader();
+    r.onload = ()=>{
+      products = JSON.parse(r.result);
+      saveProducts();
+      renderAdminList();
+    };
+    r.readAsText(e.target.files[0]);
+  };
+
+  adminPw.focus();
+</script>
+</body>
+</html>
